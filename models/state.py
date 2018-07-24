@@ -2,12 +2,20 @@
 '''
     Implementation of the State class
 '''
+from models.base_model import BaseModel, Base
+from sqlalchemy import Column, String,
+from sqlalchemy.orm import relationship, Query
 
-from models.base_model import BaseModel
 
-
-class State(BaseModel):
+class State(BaseModel, Base):
     '''
         Implementation for the State.
     '''
-    name = ""
+    __tablename__ = "states"
+    name = Column(String(128),
+                  nullable=False)
+    cities = relationship("City", backref="state", cascade="all, delete-orphan")
+
+    @property
+    def cities(self):
+        Query(cities)
