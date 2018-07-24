@@ -15,10 +15,48 @@ from models.amenity import Amenity
 from models.review import Review
 
 
+def isfloat(x):
+    """ check if x is a float
+
+    Returns:
+        bool: True if successful, False otherwise.
+
+    """
+    try:
+        a = float(x)
+    except ValueError:
+        return False
+    else:
+        return True
+
+
+def isint(x):
+    """ check if x is an int
+
+    Returns:
+        bool: True if successful, False otherwise.
+
+    """
+    try:
+        a = float(x)
+        b = int(a)
+    except ValueError:
+        return False
+    else:
+        return a == b
+
+
 class HBNBCommand(cmd.Cmd):
     '''
         Contains the entry point of the command interpreter.
     '''
+    available_models = ["BaseModel",
+                        "Amenity",
+                        "City",
+                        "Place",
+                        "Review",
+                        "State",
+                        "User"]
 
     prompt = ("(hbnb) ")
 
@@ -34,22 +72,50 @@ class HBNBCommand(cmd.Cmd):
         '''
         return True
 
+    def is_valid_arg(self, arg):
+        """checks if argument is valid
+
+        Args:
+           arg (str): the argument
+
+        Returns:
+            bool: True if successful, False otherwise.
+
+        """
+        print(arg)
+        if "=" in arg:
+            return True
+        else:
+            return False
+
     def do_create(self, args):
         '''
             Create a new instance of class BaseModel and saves it
             to the JSON file.
         '''
-        if len(args) == 0:
+        if not args:
             print("** class name missing **")
             return
-        try:
-            args = shlex.split(args)
-            new_instance = eval(args[0])()
-            new_instance.save()
-            print(new_instance.id)
-
-        except:
+        args = shlex.split(args)
+        if args[0] not in self.available_models:
             print("** class doesn't exist **")
+            return
+        new_instance = eval(args[0])()
+        for arg in args[1:]:
+            if self.is_valid_arg(arg):
+                key = arg.split('=')[0]
+                print(key)
+                val = arg.split('=')[1].replace('_', ' ')
+                if isfloat(val):
+                    val = float(val)
+                elif isint(val):
+                    val = int(val)
+                setattr(new_instance, key, val)
+            else:
+                print("arg {} contains no :".format(arg))
+
+        new_instance.save()
+        print(new_instance.id)
 
     def do_show(self, args):
         '''
