@@ -111,8 +111,6 @@ class HBNBCommand(cmd.Cmd):
                 elif isint(val):
                     val = int(val)
                 setattr(new_instance, key, val)
-            else:
-                print("arg {} contains no :".format(arg))
 
         new_instance.save()
         print(new_instance.id)

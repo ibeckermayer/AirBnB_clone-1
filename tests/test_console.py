@@ -7,7 +7,7 @@ import models
 import unittest
 from io import StringIO
 from console import HBNBCommand
-from unittest.mock import create_autospec
+# from unittest.mock import create_autospec
 
 
 class test_console(unittest.TestCase):
