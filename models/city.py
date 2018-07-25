@@ -3,7 +3,7 @@
     Define the class City.
 '''
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String
+from sqlalchemy import Column, String, ForeignKey
 
 
 class City(BaseModel, Base):
@@ -14,5 +14,5 @@ class City(BaseModel, Base):
     name = Column(String(128),
                   nullable=False)
     state_id = Column(String(60),
-                      nullable=False,
-                      ForeignKey("states.id"))
+                      ForeignKey("states.id"),
+                      nullable=False)

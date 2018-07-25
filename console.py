@@ -5,7 +5,7 @@
 import cmd
 import json
 import shlex
-from models.engine.file_storage import FileStorage
+from models import storage
 from models.base_model import BaseModel
 from models.user import User
 from models.place import Place
@@ -127,7 +127,6 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 1:
             print("** instance id missing **")
             return
-        storage = FileStorage()
         storage.reload()
         obj_dict = storage.all()
         try:
@@ -156,7 +155,6 @@ class HBNBCommand(cmd.Cmd):
             return
         class_name = args[0]
         class_id = args[1]
-        storage = FileStorage()
         storage.reload()
         obj_dict = storage.all()
         try:
@@ -177,30 +175,21 @@ class HBNBCommand(cmd.Cmd):
             based or not on the class name.
         '''
         obj_list = []
-        storage = FileStorage()
         storage.reload()
-        objects = storage.all()
         try:
             if len(args) != 0:
-                eval(args)
+                objects = storage.all(args)
         except NameError:
             print("** class doesn't exist **")
             return
-        for key, val in objects.items():
-            if len(args) != 0:
-                if type(val) is eval(args):
-                    obj_list.append(val)
-            else:
-                obj_list.append(val)
 
-        print(obj_list)
+        print(list(objects.values()))
 
     def do_update(self, args):
         '''
             Update an instance based on the class name and id
             sent as args.
         '''
-        storage = FileStorage()
         storage.reload()
         args = shlex.split(args)
         if len(args) == 0:
@@ -246,7 +235,6 @@ class HBNBCommand(cmd.Cmd):
             Counts/retrieves the number of instances.
         '''
         obj_list = []
-        storage = FileStorage()
         storage.reload()
         objects = storage.all()
         try:

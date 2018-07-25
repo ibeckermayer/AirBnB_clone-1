@@ -3,8 +3,9 @@
     Implementation of the State class
 '''
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String,
-from sqlalchemy.orm import relationship, Query
+from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
+import models
 
 
 class State(BaseModel, Base):
@@ -18,4 +19,10 @@ class State(BaseModel, Base):
 
     @property
     def cities(self):
-        Query(cities)
+        '''
+            getter attribute cities that returns the list of City
+            instances with state_id equals to the current State.id
+        '''
+        cits = models.storage.all('City').values()
+        cits_by_state = [city for city in cits if city.state_id == self.id]
+        return cits_by_state
