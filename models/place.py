@@ -2,9 +2,18 @@
 '''
     Define the class Place.
 '''
+from os import getenv
 from models import BaseModel, Base
-from sqlalchemy import Column, Integer, String, Float, ForeignKey
+from sqlalchemy import Table, Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
+
+
+place_amenity = Table('place_amenity', Base.metadata,
+    Column("place_id", String(60), ForeignKey("places.id"),
+           primary_key=True, nullable=False),
+    Column("amenity_id", String(60), ForeignKey("amenities.id"),
+           primary_key=True, nullable=False)
+)
 
 
 class Place(BaseModel, Base):
@@ -26,8 +35,30 @@ class Place(BaseModel, Base):
     reviews = relationship("Review", backref="place",
                            cascade="all, delete-orphan")
     amenity_ids = []
+    amenities = relationship("Amenity", backref="places",
+                             secondary=place_amenity, viewonly=False)
 
-    @property
-    def reviews(self):
-        storages = models.storage.all("Review").values()
-        return [record for record in storages if place_id == self.id]
+    if getenv("HBNB_TYPE_STORAGE") != "db":
+        @property
+        def reviews(self):
+            '''
+                Getter for the reviews property
+            '''
+            records = models.storage.all("Review").values()
+            return [record for record in records if place_id == self.id]
+
+        @property
+        def amenities(self):
+            '''
+                Getter for the amenities property
+            '''
+            return self.amenity_ids
+
+        @amenities.setter
+        def amenities(self, instance=None):
+            '''
+                Setter for the amenities property
+            '''
+            if type(instance) is Amenity:
+                if instance.place_amenity.place_id == self.id:
+                    self.amenity_ids.append(instance.id)
