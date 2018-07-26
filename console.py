@@ -82,7 +82,6 @@ class HBNBCommand(cmd.Cmd):
             bool: True if successful, False otherwise.
 
         """
-        print(arg)
         if "=" in arg:
             return True
         else:
@@ -104,7 +103,6 @@ class HBNBCommand(cmd.Cmd):
         for arg in args[1:]:
             if self.is_valid_arg(arg):
                 key = arg.split('=')[0]
-                print(key)
                 val = arg.split('=')[1].replace('_', ' ')
                 if isfloat(val):
                     val = float(val)
@@ -174,11 +172,12 @@ class HBNBCommand(cmd.Cmd):
             Prints all string representation of all instances
             based or not on the class name.
         '''
-        obj_list = []
         storage.reload()
         try:
             if len(args) != 0:
                 objects = storage.all(args)
+            else:
+                objects = storage.all()
         except NameError:
             print("** class doesn't exist **")
             return
