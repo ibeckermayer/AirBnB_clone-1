@@ -172,11 +172,12 @@ class HBNBCommand(cmd.Cmd):
             Prints all string representation of all instances
             based or not on the class name.
         '''
-        obj_list = []
         storage.reload()
         try:
             if len(args) != 0:
                 objects = storage.all(args)
+            else:
+                objects = storage.all()
         except NameError:
             print("** class doesn't exist **")
             return

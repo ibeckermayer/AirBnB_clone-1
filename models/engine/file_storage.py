@@ -33,7 +33,6 @@ class FileStorage:
             except KeyError:
                 pass
 
-
     def new(self, obj):
         '''
             Set in __objects the obj with key <obj class name>.id
