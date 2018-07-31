@@ -1,8 +1,7 @@
 #!/usr/bin/python3
-import tarfile
 from fabric.api import local
 from datetime import datetime
-import os
+
 
 
 def do_pack():
@@ -13,7 +12,6 @@ def do_pack():
         local('mkdir -p versions')
         local("tar -cvzf versions/{}.tgz {}".format(
             name, "web_static/"))
-        size = os.path.getsize("./versions/{}.tgz".format(name))
         return "versions/{}.tgz".format(name)
     except:
         return None
