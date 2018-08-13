@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -54,6 +54,34 @@ def python(text="is_cool"):
 
     """
     return "Python {:s}".format(text).replace('_', " ")
+
+
+@app.route('/number/<int:n>', strict_slashes=False)
+def number(n):
+    """display Python <text>
+
+    Args:
+        n (str): input number, must be int
+
+    Returns:
+        str: <n> is a number
+
+    """
+    return "{:d} is a number".format(n)
+
+
+@app.route('/number_template/<int:n>', strict_slashes=False)
+def number_template(n):
+    """display Python <text>
+
+    Args:
+        n (str): input n, must be int
+
+    Returns:
+        str: rendered html
+
+    """
+    return render_template("5-number.html", n=n)
 
 
 if __name__ == "__main__":
