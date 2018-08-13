@@ -26,21 +26,6 @@ def hbnb():
     """
     return "HBNB"
 
-def fdjk(ksjaf, ksjafsa):
-    """fjdksf
-
-    Args:
-       ksjaf arg1
-       ksjafsa arg2
-
-    Returns:
-        bool: True if successful, False otherwise.
-
-    Raises:
-        ValueError: If param2 is equal to param1.
-
-    """
-
 
 @app.route('/c/<text>', strict_slashes=False)
 def c(text):
