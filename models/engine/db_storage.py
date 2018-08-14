@@ -44,12 +44,12 @@ class DBStorage():
         if not cls:
             for classname in available_objects:
                 for item in self.__session.query(classname).all():
-                    key = item.__class__.__name__+ "." + item.id
+                    key = item.__class__.__name__ + "." + item.id
                     val = item
                     ret_dict[key] = val
         else:
             for item in self.__session.query(eval(cls)).all():
-                key = item.__class__.__name__+ "." + item.id
+                key = item.__class__.__name__ + "." + item.id
                 val = item
                 ret_dict[key] = val
 
