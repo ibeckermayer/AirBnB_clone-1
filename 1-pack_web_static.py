@@ -3,7 +3,6 @@ from fabric.api import local
 from datetime import datetime
 
 
-
 def do_pack():
     """ packs the web static into a tgz file
     """
