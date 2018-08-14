@@ -24,6 +24,10 @@ class DBStorage():
     __session = None
 
     def __init__(self):
+        '''
+            init method
+
+        '''
         target = 'mysql+mysqldb://{}:{}@{}:3306/{}'.format(
             os.getenv("HBNB_MYSQL_USER"),
             os.getenv("HBNB_MYSQL_PWD"),
