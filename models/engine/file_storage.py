@@ -17,6 +17,10 @@ class FileStorage:
         '''
             Return the dictionary
         '''
+        if cls:
+            return {k: v for k, v in self.__objects.items()
+                    if type(v) == cls}
+
         return self.__objects
 
     def delete(self, obj=None):
@@ -32,7 +36,6 @@ class FileStorage:
                                           + str(obj.id)]
             except KeyError:
                 pass
-
 
     def new(self, obj):
         '''
@@ -68,3 +71,10 @@ class FileStorage:
                 FileStorage.__objects[key] = class_name(**val)
         except FileNotFoundError:
             pass
+
+    def close(self):
+        '''
+            call reload() method for deserializing the JSON file to objects
+        '''
+        self.reload()
+
