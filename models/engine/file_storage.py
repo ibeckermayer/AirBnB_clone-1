@@ -4,6 +4,7 @@
 '''
 import json
 import models
+from models.state import State
 
 
 class FileStorage:
@@ -19,7 +20,7 @@ class FileStorage:
         '''
         if cls:
             return {k: v for k, v in self.__objects.items()
-                    if type(v) == cls}
+                    if type(v) == eval(cls)}
 
         return self.__objects
 
