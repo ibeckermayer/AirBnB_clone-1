@@ -52,7 +52,8 @@ class DBStorage():
                     val = item
                     ret_dict[key] = val
         else:
-            for item in self.__session.query(eval(cls)).all():
+            # for item in self.__session.query(eval(cls)).all():
+            for item in self.__session.query(cls).all():
                 key = item.__class__.__name__ + "." + item.id
                 val = item
                 ret_dict[key] = val
