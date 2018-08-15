@@ -25,9 +25,12 @@ class FileStorage:
             Return the dictionary
         '''
         if cls:
-            return {k: v for k, v in self.__objects.items()
-                    if type(v) == eval(cls)}
-
+            if type(cls) == str:
+                return {k: v for k, v in self.__objects.items()
+                        if type(v) == eval(cls)}
+            else:
+                return {k: v for k, v in self.__objects.items()
+                        if type(v) == cls}
         return self.__objects
 
     def delete(self, obj=None):
